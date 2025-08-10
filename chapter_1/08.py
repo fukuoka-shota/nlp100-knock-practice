@@ -10,7 +10,7 @@ def cipher(sentence):
             rtn += str
     return rtn
 
-sentence1 = "N_GRaM"
+sentence1 = "This is a secret message."
 
 #暗号化
 print(cipher(sentence1))
