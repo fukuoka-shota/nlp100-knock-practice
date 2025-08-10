@@ -1,6 +1,8 @@
 str1 = "パトカー"
-str2 = "タクシー"
+str2 = "タクシーあいうえお"
 
-comb_str1_str2 = zip(str1, str2)
-ans = ''.join(a+b for a, b in comb_str1_str2)
+result_list = []
+for a, b in zip(str1, str2):
+    result_list.append(a+b)
+ans = ''.join(result_list)
 print(ans)

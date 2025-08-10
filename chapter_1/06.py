@@ -5,8 +5,12 @@ str1 = "paraparaparadise"
 str2 = "paragraph"
 
 X = n_gram(str1, 2)
+# print(X)
 Y = n_gram(str2, 2)
+# print(Y)
 
+# print(type(set(X)))
+#set型同士で集合の演算ができる、X¥YはXからYの要素を除いた集合
 x_union_y = set(X) | set(Y)
 x_and_y = set(X) & set(Y)
 x_minus_y = set(X) - set(Y)
