@@ -2,7 +2,7 @@ import pandas as pd
 
 with open("popular-names.txt") as f:
     lines = f.readlines()
-    each_line_list = []
+    each_line_list = [] 
     for line in lines:
         each_line_list.append(list(line.split()))
     df = pd.DataFrame(each_line_list)
