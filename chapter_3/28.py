@@ -52,14 +52,15 @@ def dictionaly_object_of_template():
     prog = re.compile(r"""
     ^\|    #|で始まる行、^は文字列の先頭
     (.+?)  #キャプチャ、非貪欲、任意の１文字以上
-    \s*     #1文字のスペース
-    =      #1文字の=
-    \s*     #1文字のスペース
-    (.+?)   #キャプチャ対象、任意の1文字以上
-    (?:		# キャプチャ対象外のグループ開始
-        (?=\n\|) 	# (?=...)...が次に次ぐクモノにマッチすれば、マッチするが文字列を消費しない(先読みアサーション)
-        | (?=$)     #| はまたはの意味、(?=$)は最後の行を含むようにするため、$は文字列の末尾
-    )			# グループ終了
+    \s*     #0文字以上のスペース
+    =       #1文字の=
+    \s*     #0文字以上のスペース
+    (.*?)   #キャプチャ対象、任意の1文字以上
+    (?=\n\| | \Z) 
+    # (?:		# キャプチャ対象外のグループ開始
+    #     (?=\n\|) 	# (?=...)...が次に続くモノにマッチすれば、マッチするが文字列を消費しない(先読みアサーション)
+    #     | (?=$)     #| はまたはの意味、(?=$)は最後の行を含むようにするため、$は文字列の末尾
+    # )			# グループ終了
     """, re.VERBOSE | re.MULTILINE | re.DOTALL)
 
     #re.findallはマッチしたパターンのストリングかタプルを返す(2つ以上の場合、タプル)
@@ -87,7 +88,6 @@ def markup_remove(dict_template):
     #[[ファイル:Royal Coat of Arms of the United Kingdom.svg|85px|イギリスの国章]]
     #除去するもの
     #（[[イギリスの国章|国章]]）→(国章)
-    #
     #貪欲はできるだけ多く、非貪欲はできるだけ少なく
     prog = re.compile(r"""
                     \[\[
@@ -101,12 +101,17 @@ def markup_remove(dict_template):
     markup_removed = {k : prog.sub(r"\1", v) for k, v in markup_removed.items()}
 
     #{{...}}の外側の波かっこの除去
-    prog = re.compile(r"""
-                      \{\{
-                      (.*?)
-                      \}\}
-                      """, re.DOTALL | re.VERBOSE)
-    markup_removed = {k : prog.sub(r"\1", v) for k, v in markup_removed.items()}
+    # prog = re.compile(r"""
+    #                   \{\{
+    #                   (.*?)
+    #                   \}\}
+    #                   """, re.DOTALL | re.VERBOSE)
+    prog = re.compile(r"\{\{(.+\||)(.+?)\}\}")
+    markup_removed = {k : prog.sub(r"\2", v) for k, v in markup_removed.items()}
+
+    #<ref name="...">の除去
+    prog = re.compile(r"\<ref name=(.+)\>")
+    markup_removed = {k : prog.sub("", v) for k, v in markup_removed.items()}
 
     return markup_removed
 

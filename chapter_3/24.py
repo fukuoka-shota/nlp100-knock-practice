@@ -13,7 +13,8 @@ with gzip.open(file_path, 'rt', encoding='utf-8') as f:
             break
 
 #[^a]はa以外のあらゆる文字にマッチ、()がキャプチャ
-prog = re.compile(r'\[\[ファイル:([^|]+)')
+#|と]以外のあらゆる文字にマッチさせる
+prog = re.compile(r'\[\[ファイル:([^|\]]+)')
 #非重複のリストを返す
 files = re.findall(prog, uk_text)
 
