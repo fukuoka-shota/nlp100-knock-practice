@@ -1,2 +1,9 @@
 #_venvフォルダを無視
 *_venv
+*.csv
+*.tab
+*.zip
+*.txt
+*.bin
+*-venv
+*.gz
