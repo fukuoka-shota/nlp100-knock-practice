@@ -42,8 +42,9 @@ s_dev = df_dev["label"]
 reference = s_dev.tolist()
 
 cm = confusion_matrix(reference,prediction)
+print(cm)
 tn, fp, fn, tp = cm.flatten()
-# print(tn, fp, fn, tp)
+print(tn, fp, fn, tp)
 
 correct_answer_nbr = 0
 # print(len(reference))
